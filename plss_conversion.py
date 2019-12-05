@@ -4,13 +4,13 @@ def plss_to_grid(plss_code):
     # Centralia Baseline/3rd Meridian, 1st Township N, 1st E, S1 = 301N01E01
     # 301N01E01 = [21][17]
     # 4____xW__ : x1 = 10 - x
-    # 4____xE__ : x1 = x + 9
+    # 4____xE__ : x1 = x + 10
     # 3____xW__ : x1 = 9 + ( 13 - x )
-    # 3____xE__ : x1 = x + 9 + 12
+    # 3____xE__ : x1 = x + 10 + 12
     # 3_yS_____ : y1 = 17 - y
     # 3_yN_____ : y1 = y + 17
-    # 4_yS_____ : 
-    # 4_yN_____ : y1 = y + 17 + 17
+    # 4_yS_____ : y1 = 17 + ( 19 - y )
+    # 4_yN_____ : y1 = y + 17 + 18
     reference = int(plss_code[0])
     township = int(plss_code[1:3])
     cardinal_y = plss_code[3]
