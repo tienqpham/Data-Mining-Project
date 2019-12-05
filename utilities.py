@@ -1,3 +1,41 @@
+import numpy
+import random
+import time
+from matplotlib import pyplot
+
+# returns 2D list of lists (i.e. a table) of strings
+# table is constructed from tab-separated data in file
+def file_to_list(filename):
+    file = open(filename, 'r')
+    x = file.readlines()
+    file.close()
+
+    for i in range(0, len(x)):
+        x[i] = x[i].split('\t')
+        deletions = 0
+        j = 0
+        length = len(x[i])
+        while j < length:
+            #print(j)
+            if x[i][j] == '':
+                #print(j)
+                del x[i][j]
+                length-=1
+            j+=1
+
+    for i in range(0, len(x)):
+        for j in range(0, len(x[i])):
+            for k in range(0, len(x[i][j])):
+                if x[i][j][k] == '\n':
+                    x[i][j] = x[i][j][0:k]
+
+    return x
+
+def test_file_to_list():
+    data = file_to_list("CWDData2016.txt")
+    for line in data:
+        print(line)
+
 # returns tuple containing the indices of a two-dimensional array
 # corresponding to the coordinate position of a township on a grid
 
@@ -11,7 +49,7 @@
 # X = east/west cardinal reference direction from meridian ( E || W )
 # ss = section number
 
-def plss_to_grid(plss_code):
+def plss_to_indices(plss_code):
     # y0 = [][0] = Centralia/3rdMeridian Township 17 South
     # x0 = [0] = Beardstown/4thMeridian Range 10
     
@@ -62,8 +100,30 @@ def plss_to_grid(plss_code):
 
     return x,y
 
-#print(plss_to_grid("401N01E01"))
-#print(plss_to_grid("318N11W01"))
+def file_to_grid(filename):
+    height = 46+17
+    width = 10 + 11 + 12
+    grid = []
+    for i in range(0, height):
+        row = []
+        for j in range(0, width):
+            row.append(0)
+        grid.append(row)
 
+    data = file_to_list(filename)
+    del data[0]
+    for row in data:
+        if row[3] != "NoLocation":
+            pos = plss_to_indices(row[3])
+            #print(pos)
+            grid[pos[1]][pos[0]] = 1
+            
+    return grid
 
-    
+def test_file_to_grid():
+    grid = file_to_grid("CWDData2016.txt")
+    for row in grid:
+        print(row)
+        pass
+
+test_file_to_grid()
