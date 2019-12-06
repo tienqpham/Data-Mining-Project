@@ -31,11 +31,6 @@ def file_to_list(filename):
 
     return x
 
-def test_file_to_list():
-    data = file_to_list("CWDData2016.txt")
-    for line in data:
-        print(line)
-
 # returns tuple containing the indices of a two-dimensional array
 # corresponding to the coordinate position of a township on a grid
 
@@ -98,8 +93,13 @@ def plss_to_indices(plss_code):
         elif cardinal_x == "W":
             x = 10 - x - 1
 
-    return x,y
+    coordinates = []
+    coordinates.append(x)
+    coordinates.append(y)
 
+    return coordinates
+
+# converts data from file to a grid showing occurrences per township
 def file_to_grid(filename):
     height = 46+17
     width = 10 + 11 + 12
@@ -116,14 +116,19 @@ def file_to_grid(filename):
         if row[3] != "NoLocation":
             pos = plss_to_indices(row[3])
             #print(pos)
-            grid[pos[1]][pos[0]] = 1
+            grid[ pos[1] ][ pos[0] ] +=1
             
     return grid
 
-def test_file_to_grid():
-    grid = file_to_grid("CWDData2016.txt")
-    for row in grid:
-        print(row)
-        pass
-
-test_file_to_grid()
+# converts data from file to a format usable with pylot
+def file_to_pyplot(filename):
+    grid = file_to_grid(filename)
+    data = []
+    height = len(grid)
+    width = len(grid[0])
+    for i in range(0, height):
+        for j in range(0, width):
+            if grid[i][j] > 0:
+                row = [i, j, grid[i][j]]
+                data.append(row)
+    return data
