@@ -93,11 +93,7 @@ def plss_to_indices(plss_code):
         elif cardinal_x == "W":
             x = 10 - x - 1
 
-    coordinates = []
-    coordinates.append(x)
-    coordinates.append(y)
-
-    return coordinates
+    return [x,y]
 
 # converts data from file to a grid showing occurrences per township
 def file_to_grid(filename):
