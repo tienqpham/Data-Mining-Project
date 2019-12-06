@@ -120,8 +120,13 @@ def file_to_grid(filename):
             
     return grid
 
-# converts data from file to a format usable with pylot
-def file_to_pyplot(filename):
+# converts data from file to a list of sublists
+# first two elements of sublist represent coordinates where animals were found
+# third element of sublist is the number of occurrences of an animal at those coordinates
+# third element is always >0
+
+# more data will be added to the return value
+def file_to_density(filename):
     grid = file_to_grid(filename)
     data = []
     height = len(grid)

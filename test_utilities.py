@@ -17,9 +17,10 @@ def test_file_to_grid():
         i-=1
         pass
 
-def test_file_to_pyplot():
-    data = file_to_pyplot("CWDData2016.txt")
+def test_file_to_density():
+    data = file_to_density("CWDData2016.txt")
+    
     pyplot.scatter(*zip(*data))
     pyplot.show()
 
-test_file_to_pyplot()
+test_file_to_density()
