@@ -4,6 +4,11 @@ import time
 import random
 from matplotlib import pyplot
 
+def test_file_to_coordinates():
+    data = file_to_coordinates("CWDData2016.txt", True)
+    for line in data:
+        print(line)
+
 def test_file_to_list():
     data = file_to_list("CWDData2016.txt")
     for line in data:
@@ -23,4 +28,4 @@ def test_file_to_density():
     pyplot.scatter(*zip(*data))
     pyplot.show()
 
-test_file_to_density()
+#test_file_to_coordinates()

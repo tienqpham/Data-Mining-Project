@@ -3,6 +3,34 @@ import random
 import time
 from matplotlib import pyplot
 
+# converts data from file to a list of coordinates
+# coordinates represent the location of any given animal
+
+# filename = string format; name of standardized data file
+# print_counts = boolean; whether or not to print counts of known and unknown location
+def file_to_coordinates(filename, print_counts=False):
+    height = 46+17
+    width = 10 + 11 + 12
+
+    instance_locations = []
+
+    no_location = 0
+
+    data = file_to_list(filename)
+    del data[0]
+    for row in data:
+        if row[3] != "NoLocation":
+            instance_locations.append(plss_to_indices(row[3]))
+        else:
+            no_location +=1
+
+    if print_counts:
+        print("Total instances: " + str(len(data)))
+        print("Instances with known location: " + str(len(instance_locations)))
+        print("Instances with no known location: " + str(no_location))
+
+    return instance_locations
+
 # returns 2D list of lists (i.e. a table) of strings
 # table is constructed from tab-separated data in file
 def file_to_list(filename):
@@ -44,7 +72,9 @@ def file_to_list(filename):
 # X = east/west cardinal reference direction from meridian ( E || W )
 # ss = section number
 
-def plss_to_indices(plss_code):
+# use_sections = whether or not to include decimal sub-coordinates
+
+def plss_to_indices(plss_code, use_sections=False):
     # y0 = [][0] = Centralia/3rdMeridian Township 17 South
     # x0 = [0] = Beardstown/4thMeridian Range 10
     
@@ -132,4 +162,9 @@ def file_to_density(filename):
             if grid[i][j] > 0:
                 row = [i, j, grid[i][j]]
                 data.append(row)
+                
     return data
+
+
+def section_to_subcoordinates(section):
+    pass
