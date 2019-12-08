@@ -8,6 +8,14 @@ def test_file_to_coordinates():
     data = file_to_coordinates("CWDData2016.txt", True)
     for line in data:
         print(line)
+    pyplot.scatter(*zip(*data))
+    pyplot.show()
+
+def test_section_to_subcoordinates():
+    for i in range(0, 10):
+        k = random.randint(1,37)
+        print("section " + str(k) + " = ")
+        print(section_to_subcoordinates(k))
 
 def test_file_to_list():
     data = file_to_list("CWDData2016.txt")
@@ -28,4 +36,5 @@ def test_file_to_density():
     pyplot.scatter(*zip(*data))
     pyplot.show()
 
-#test_file_to_coordinates()
+test_file_to_coordinates()
+#test_section_to_subcoordinates()
