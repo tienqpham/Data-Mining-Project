@@ -4,6 +4,11 @@ import time
 import math
 from matplotlib import pyplot
 
+# returns a list of relevant counties and the number of animals in each
+def get_counties(filename):
+    data = file_to_list(filename)
+    counties = []
+
 # converts data from file to a list of coordinates
 # coordinates represent the location of any given animal
 
