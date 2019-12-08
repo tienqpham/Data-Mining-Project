@@ -5,13 +5,7 @@ import random
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 
-data = file_to_list("CWDData2017.txt")
-pos_list = []
-for row in data[1: ]:
-    if row[3] != "NoLocation":
-        pos = plss_to_indices(row[3])
-        pos_list.append(pos)
-
+pos_list = file_to_coordinates("CWDData2017.txt")
 npdata = np.asarray(pos_list)
 
 kmeans = KMeans(n_clusters=3, init='random', n_init=10, max_iter=200, tol=0.0001)

@@ -6,13 +6,7 @@ from matplotlib import pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 
-data = file_to_list("CWDData2017.txt")
-pos_list = []
-for row in data[1: ]:
-    if row[3] != "NoLocation":
-        pos = plss_to_indices(row[3])
-        pos_list.append(pos)
-
+pos_list = file_to_coordinates("CWDData2017.txt")
 npdata = np.asarray(pos_list)
 
 linked = linkage(npdata, 'single')
