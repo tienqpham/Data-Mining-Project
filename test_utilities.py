@@ -8,6 +8,8 @@ def test_file_to_coordinates():
     data = file_to_coordinates("CWDData2016.txt", True)
     for line in data:
         print(line)
+    pyplot.scatter(*zip(*data))
+    pyplot.show()
 
 def test_section_to_subcoordinates():
     for i in range(0, 10):
