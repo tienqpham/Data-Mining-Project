@@ -1,6 +1,7 @@
 import numpy
 import random
 import time
+import math
 from matplotlib import pyplot
 
 # converts data from file to a list of coordinates
@@ -20,7 +21,7 @@ def file_to_coordinates(filename, print_counts=False):
     del data[0]
     for row in data:
         if row[3] != "NoLocation":
-            instance_locations.append(plss_to_indices(row[3]))
+            instance_locations.append(plss_to_indices(row[3], True))
         else:
             no_location +=1
 
@@ -123,7 +124,32 @@ def plss_to_indices(plss_code, use_sections=False):
         elif cardinal_x == "W":
             x = 10 - x - 1
 
+    if use_sections:
+        sub = section_to_subcoordinates(section)
+        x = x + sub[0]
+        y = y + sub[1]
+
     return [x,y]
+
+def section_to_subcoordinates(section):
+    x = 1.0
+    y = 1.0
+    if section%6 == 0:
+        y = (6 - (section/6))/6
+        x = 0
+    else:
+        n = math.floor(section/6)
+        y = (5 - n)/6
+        x = n/6
+
+    x = round(x, ndigits=2)
+    y = round(y, ndigits=2)
+
+    return [x,y]
+
+# converts x,y coordinates to standardized PLSS code
+def indices_to_plss(location):
+    pass
 
 # converts data from file to a grid showing occurrences per township
 def file_to_grid(filename):
@@ -165,6 +191,3 @@ def file_to_density(filename):
                 
     return data
 
-
-def section_to_subcoordinates(section):
-    pass
