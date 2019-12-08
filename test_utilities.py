@@ -4,8 +4,10 @@ import time
 import random
 from matplotlib import pyplot
 
+DATA_2016 = "CWDData2016.txt"
+
 def test_file_to_coordinates():
-    data = file_to_coordinates("CWDData2016.txt", True)
+    data = file_to_coordinates(DATA_2016, True)
     for line in data:
         print(line)
     pyplot.scatter(*zip(*data))
@@ -18,12 +20,12 @@ def test_section_to_subcoordinates():
         print(section_to_subcoordinates(k))
 
 def test_file_to_list():
-    data = file_to_list("CWDData2016.txt")
+    data = file_to_list(DATA_2016)
     for line in data:
         print(line)
 
 def test_file_to_grid():
-    grid = file_to_grid("CWDData2016.txt")
+    grid = file_to_grid(DATA_2016)
     i = len(grid)-1
     while i > -1:
         print(grid[i])
@@ -31,10 +33,16 @@ def test_file_to_grid():
         pass
 
 def test_file_to_density():
-    data = file_to_density("CWDData2016.txt")
+    data = file_to_density(DATA_2016)
     
     pyplot.scatter(*zip(*data))
     pyplot.show()
 
-test_file_to_coordinates()
+def test_get_statistics():
+    data = get_statistic(DATA_2016, "collection")
+    for row in data:
+        print(row)
+
+#test_file_to_coordinates()
 #test_section_to_subcoordinates()
+test_get_statistics()
