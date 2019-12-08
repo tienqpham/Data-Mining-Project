@@ -4,6 +4,29 @@ import time
 import math
 from matplotlib import pyplot
 
+# returns a list of values that occur for the given attribute and the number of occurences of each value
+# attribute = "county" || "sex" || "age" || "collection"
+def get_statistic(filename, attribute):
+    attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+    index = attributes.index(attribute)
+    data = file_to_list(filename)
+    del data[0]
+    values = []
+    for row in data:
+        if not row[index] in values:
+            values.append(row[index])
+
+    occurrences = []
+
+    for value in values:
+        n = 0
+        for row in data:
+            if row[index] == value:
+                n+=1
+        occurrences.append([value, n])
+
+    return occurrences
+
 # converts data from file to a list of coordinates
 # coordinates represent the location of any given animal
 
