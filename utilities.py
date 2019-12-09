@@ -6,7 +6,7 @@ from matplotlib import pyplot
 
 # returns a list of values that occur for the given attribute and the number of occurences of each value
 # attribute = "county" || "sex" || "age" || "collection"
-def get_statistic(filename, attribute):
+def get_counts(filename, attribute):
     attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
     index = attributes.index(attribute)
     data = file_to_list(filename)

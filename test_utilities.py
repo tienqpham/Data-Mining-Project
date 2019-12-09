@@ -38,11 +38,11 @@ def test_file_to_density():
     pyplot.scatter(*zip(*data))
     pyplot.show()
 
-def test_get_statistics():
-    data = get_statistic(DATA_2016, "collection")
+def test_get_counts():
+    data = get_counts(DATA_2016, "collection")
     for row in data:
         print(row)
 
 #test_file_to_coordinates()
 #test_section_to_subcoordinates()
-test_get_statistics()
+test_get_counts()
