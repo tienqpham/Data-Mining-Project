@@ -4,9 +4,10 @@ import time
 import math
 from matplotlib import pyplot
 
+
 # returns a list of values that occur for the given attribute and the number of occurences of each value
 # attribute = "county" || "sex" || "age" || "collection"
-def get_statistic(filename, attribute):
+def get_counts(filename, attribute):
     attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
     index = attributes.index(attribute)
     data = file_to_list(filename)
@@ -33,8 +34,8 @@ def get_statistic(filename, attribute):
 # filename = string format; name of standardized data file
 # print_counts = boolean; whether or not to print counts of known and unknown location
 def file_to_coordinates(filename, print_counts=False):
-    height = 46+17
-    width = 10 + 11 + 12
+    height = 62
+    width = 35
 
     instance_locations = []
 
@@ -176,8 +177,8 @@ def indices_to_plss(location):
 
 # converts data from file to a grid showing occurrences per township
 def file_to_grid(filename):
-    height = 46+17
-    width = 10 + 11 + 12
+    height = 62
+    width = 35
     grid = []
     for i in range(0, height):
         row = []
