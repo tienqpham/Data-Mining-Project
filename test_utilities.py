@@ -5,9 +5,10 @@ import random
 from matplotlib import pyplot
 
 DATA_2016 = "CWDData2016.txt"
+DATA_2015 = "CWDData2015.txt"
 
 def test_file_to_coordinates():
-    data = file_to_coordinates(DATA_2016, True)
+    data = file_to_coordinates(DATA_2015, True)
     for line in data:
         print(line)
     pyplot.scatter(*zip(*data))
@@ -20,7 +21,7 @@ def test_section_to_subcoordinates():
         print(section_to_subcoordinates(k))
 
 def test_file_to_list():
-    data = file_to_list(DATA_2016)
+    data = file_to_list(DATA_2015)
     for line in data:
         print(line)
 
@@ -45,4 +46,5 @@ def test_get_counts():
 
 #test_file_to_coordinates()
 #test_section_to_subcoordinates()
-test_get_counts()
+#test_get_counts()
+test_file_to_list()
