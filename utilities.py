@@ -5,6 +5,49 @@ import math
 from matplotlib import pyplot
 
 
+def split_dataset(dataset, attribute):
+    attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+    index = attributes.index(attribute)
+    possible_values = []
+    for row in dataset:
+        if not row[index] in possible_values:
+            possible_values.append(row[index])
+
+    data_subsets = [None] * len(possible_values)
+
+    for i in range(0, len(possible_values)):
+        data_subsets[i] = []
+        for row in dataset:
+            if row[index] == possible_values[i]:
+                data_subsets[i].append(row)
+
+    return data_subsets
+
+def plot_every_subset(dataset):
+    subsets_by_sex = split_dataset(dataset, "sex")
+    for subset in subsets_by_sex:
+        pyplot.scatter(*zip(*list_to_coordinates(subset)))
+    pyplot.grid()
+    pyplot.show()
+
+    subsets_by_age = split_dataset(dataset, "age")
+    for subset in subsets_by_age:
+        pyplot.scatter(*zip(*list_to_coordinates(subset)))
+    pyplot.grid()
+    pyplot.show()
+
+    subsets_by_county = split_dataset(dataset, "county")
+    for subset in subsets_by_county:
+        pyplot.scatter(*zip(*list_to_coordinates(subset)))
+    pyplot.grid()
+    pyplot.show()
+
+    subsets_by_collection = split_dataset(dataset, "collection")
+    for subset in subsets_by_collection:
+        pyplot.scatter(*zip(*list_to_coordinates(subset)))
+    pyplot.grid()
+    pyplot.show()
+
 # returns a list of values that occur for the given attribute and the number of occurences of each value
 # attribute = "county" || "sex" || "age" || "collection"
 def get_counts(filename, attribute):
@@ -67,6 +110,24 @@ def file_to_coordinates(filename, print_counts=False):
 
     return instance_locations
 
+def list_to_coordinates(data, print_counts=False):
+    instance_locations = []
+
+    no_location = 0
+    
+    for row in data:
+        if row[3] != "NoLocation":
+            instance_locations.append(plss_to_indices(row[3], True))
+        else:
+            no_location +=1
+
+    if print_counts:
+        print("Total instances: " + str(len(data)))
+        print("Instances with known location: " + str(len(instance_locations)))
+        print("Instances with no known location: " + str(no_location))
+
+    return instance_locations
+
 # returns 2D list of lists (i.e. a table) of strings
 # table is constructed from tab-separated data in file
 def file_to_list(filename):
@@ -92,6 +153,8 @@ def file_to_list(filename):
             for k in range(0, len(x[i][j])):
                 if x[i][j][k] == '\n':
                     x[i][j] = x[i][j][0:k]
+
+    del x[0]
 
     return x
 

@@ -44,8 +44,16 @@ def test_get_counts():
     for row in data:
         print(row)
 
+def test_split_dataset():
+    data = file_to_list(DATA_2016)
+    subsets = split_dataset(data, "sex")
+    for subset in subsets:
+        for row in subset:
+            print(row)
+
 #test_file_to_coordinates()
 #test_section_to_subcoordinates()
 #test_get_counts()
 #test_file_to_list()
-print_all_counts(DATA_2016)
+#print_all_counts(DATA_2016)
+test_split_dataset()

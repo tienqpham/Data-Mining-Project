@@ -5,13 +5,21 @@ import random
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 
+dataset = (
+    file_to_list("CWDData2015.txt")
+    + file_to_list("CWDData2016.txt")
+    + file_to_list("CWDData2017.txt")
+    + file_to_list("CWDData2018.txt")
+    )
+'''
 pos_list = (
     file_to_coordinates("CWDData2015.txt")
     + file_to_coordinates("CWDData2016.txt")
     + file_to_coordinates("CWDData2017.txt")
     + file_to_coordinates("CWDData2018.txt")
     )
-
+'''
+pos_list = list_to_coordinates(dataset)
 npdata = np.asarray(pos_list)
 
 kmeans = KMeans(n_clusters=3, init='random', n_init=10, max_iter=200, tol=0.0001)
@@ -27,3 +35,4 @@ plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=250,
 plt.grid()
 plt.show()
 
+plot_every_subset(dataset)
