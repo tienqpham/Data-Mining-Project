@@ -47,4 +47,5 @@ def test_get_counts():
 #test_file_to_coordinates()
 #test_section_to_subcoordinates()
 #test_get_counts()
-test_file_to_list()
+#test_file_to_list()
+print_all_counts(DATA_2016)

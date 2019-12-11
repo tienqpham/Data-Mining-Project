@@ -28,6 +28,17 @@ def get_counts(filename, attribute):
 
     return occurrences
 
+def print_counts(filename, attribute):
+    data = get_counts(filename, attribute)
+    for row in data:
+        print(row)
+
+def print_all_counts(filename):
+    attributes = ["county", "sex", "age", "collection"]
+    for attribute in attributes:
+        print(attribute + ": ")
+        print_counts(filename, attribute)
+
 # converts data from file to a list of coordinates
 # coordinates represent the location of any given animal
 
