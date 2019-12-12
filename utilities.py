@@ -23,13 +23,30 @@ def split_dataset(dataset, attribute):
 
     return data_subsets
 
-def plot_every_subset(dataset):
-    subsets_by_sex = split_dataset(dataset, "sex")
+def plot_all_subsets(dataset):
+    
+    ''''''
+    attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+    for attribute in attributes:
+        subsets = split_dataset(dataset, attribute)
+        index = attributes.index(attribute)
+        for subset in subsets:
+            plottable_set = list_to_coordinates(subset)
+            for row, plottable_row in zip(subset, plottable_set):
+                print(row)
+                print(plottable_row)
+            pyplot.scatter(*zip(*plottable_set))
+            print(" ")
+        pyplot.grid()
+        pyplot.show()
+
+    '''
+    subsets_by_sex = split_dataset(dataset, "date")
     for subset in subsets_by_sex:
         pyplot.scatter(*zip(*list_to_coordinates(subset)))
     pyplot.grid()
     pyplot.show()
-
+    ''''''
     subsets_by_age = split_dataset(dataset, "age")
     for subset in subsets_by_age:
         pyplot.scatter(*zip(*list_to_coordinates(subset)))
@@ -47,6 +64,8 @@ def plot_every_subset(dataset):
         pyplot.scatter(*zip(*list_to_coordinates(subset)))
     pyplot.grid()
     pyplot.show()
+'''
+
 
 # returns a list of values that occur for the given attribute and the number of occurences of each value
 # attribute = "county" || "sex" || "age" || "collection"

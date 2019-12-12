@@ -35,4 +35,4 @@ plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=250,
 plt.grid()
 plt.show()
 
-plot_every_subset(dataset)
+plot_all_subsets(dataset)
