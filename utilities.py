@@ -4,9 +4,12 @@ import time
 import math
 from matplotlib import pyplot
 
+attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+usable_attributes= ["county", "sex", "age", "collection"]
+
 
 def split_dataset(dataset, attribute):
-    attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+    #attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
     index = attributes.index(attribute)
     possible_values = []
     for row in dataset:
@@ -24,53 +27,23 @@ def split_dataset(dataset, attribute):
     return data_subsets
 
 def plot_all_subsets(dataset):
-    
-    ''''''
-    attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+    #attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
     for attribute in attributes:
-        subsets = split_dataset(dataset, attribute)
-        index = attributes.index(attribute)
-        for subset in subsets:
-            plottable_set = list_to_coordinates(subset)
-            for row, plottable_row in zip(subset, plottable_set):
-                print(row)
-                print(plottable_row)
-            pyplot.scatter(*zip(*plottable_set))
-            print(" ")
-        pyplot.grid()
-        pyplot.show()
-
-    '''
-    subsets_by_sex = split_dataset(dataset, "date")
-    for subset in subsets_by_sex:
-        pyplot.scatter(*zip(*list_to_coordinates(subset)))
-    pyplot.grid()
-    pyplot.show()
-    ''''''
-    subsets_by_age = split_dataset(dataset, "age")
-    for subset in subsets_by_age:
-        pyplot.scatter(*zip(*list_to_coordinates(subset)))
-    pyplot.grid()
-    pyplot.show()
-
-    subsets_by_county = split_dataset(dataset, "county")
-    for subset in subsets_by_county:
-        pyplot.scatter(*zip(*list_to_coordinates(subset)))
-    pyplot.grid()
-    pyplot.show()
-
-    subsets_by_collection = split_dataset(dataset, "collection")
-    for subset in subsets_by_collection:
-        pyplot.scatter(*zip(*list_to_coordinates(subset)))
-    pyplot.grid()
-    pyplot.show()
-'''
+        if attribute in usable_attributes:
+            subsets = split_dataset(dataset, attribute)
+            index = attributes.index(attribute)
+            for subset in subsets:
+                plottable_set = list_to_coordinates(subset)
+                pyplot.scatter(*zip(*plottable_set), label=subset[0][index], alpha=0.7)
+            pyplot.legend()
+            pyplot.grid()
+            pyplot.show()
 
 
 # returns a list of values that occur for the given attribute and the number of occurences of each value
 # attribute = "county" || "sex" || "age" || "collection"
 def get_counts(filename, attribute):
-    attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
+    #attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
     index = attributes.index(attribute)
     data = file_to_list(filename)
     del data[0]
@@ -96,7 +69,7 @@ def print_counts(filename, attribute):
         print(row)
 
 def print_all_counts(filename):
-    attributes = ["county", "sex", "age", "collection"]
+    #attributes = ["county", "sex", "age", "collection"]
     for attribute in attributes:
         print(attribute + ": ")
         print_counts(filename, attribute)
@@ -106,30 +79,18 @@ def print_all_counts(filename):
 
 # filename = string format; name of standardized data file
 # print_counts = boolean; whether or not to print counts of known and unknown location
-def file_to_coordinates(filename, print_counts=False):
-    height = 62
-    width = 35
+def file_to_coordinates(filename, print_counts=False, use_age=False):
 
-    instance_locations = []
+    return list_to_coordinates(file_to_list(filename), print_counts, use_age)
 
-    no_location = 0
+def represents_int(some_string):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
 
-    data = file_to_list(filename)
-    del data[0]
-    for row in data:
-        if row[3] != "NoLocation":
-            instance_locations.append(plss_to_indices(row[3], True))
-        else:
-            no_location +=1
-
-    if print_counts:
-        print("Total instances: " + str(len(data)))
-        print("Instances with known location: " + str(len(instance_locations)))
-        print("Instances with no known location: " + str(no_location))
-
-    return instance_locations
-
-def list_to_coordinates(data, print_counts=False):
+def list_to_coordinates(data, print_counts=False, use_age=False):
     instance_locations = []
 
     no_location = 0
@@ -137,6 +98,10 @@ def list_to_coordinates(data, print_counts=False):
     for row in data:
         if row[3] != "NoLocation":
             instance_locations.append(plss_to_indices(row[3], True))
+            if use_age:
+                if represents_int(row[5]):
+                    instance_locations[length].append(str(row[5]))
+            length +=1
         else:
             no_location +=1
 
