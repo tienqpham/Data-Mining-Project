@@ -7,8 +7,8 @@ from matplotlib import pyplot
 DATA_2016 = "CWDData2016.txt"
 DATA_2015 = "CWDData2015.txt"
 
-def test_file_to_coordinates():
-    data = file_to_coordinates(DATA_2015, True)
+def test_file_to_coordinates(test_age = False):
+    data = file_to_coordinates(DATA_2015, test_age, True)
     for line in data:
         print(line)
     pyplot.scatter(*zip(*data))
@@ -52,9 +52,9 @@ def test_split_dataset():
             print(row)
         print(" ")
 
-#test_file_to_coordinates()
+test_file_to_coordinates(True)
 #test_section_to_subcoordinates()
 #test_get_counts()
 #test_file_to_list()
 #print_all_counts(DATA_2016)
-test_split_dataset()
+#test_split_dataset()

@@ -3,9 +3,27 @@ import random
 import time
 import math
 from matplotlib import pyplot
+from sklearn.cluster import KMeans
 
 attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
 usable_attributes= ["county", "sex", "age", "collection"]
+
+def plot_kmeans(dataset, k=3, use_age=False):
+    pos_list = list_to_coordinates(dataset, False)
+    
+    npdata = numpy.asarray(pos_list)
+
+    kmeans = KMeans(n_clusters=k, init='random', n_init=10, max_iter=200, tol=0.0001)
+    y_kmeans = kmeans.fit_predict(npdata)
+
+    print(kmeans.cluster_centers_)
+
+    for i in range(0, k):
+        pyplot.scatter(npdata[y_kmeans == i, 0], npdata[y_kmeans == i, 1], s=50, edgecolor='black')
+    pyplot.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=250, marker='*', c='red', edgecolor='black')
+
+    pyplot.grid()
+    pyplot.show()
 
 
 def split_dataset(dataset, attribute):
@@ -79,28 +97,31 @@ def print_all_counts(filename):
 
 # filename = string format; name of standardized data file
 # print_counts = boolean; whether or not to print counts of known and unknown location
-def file_to_coordinates(filename, print_counts=False, use_age=False):
+def file_to_coordinates(filename, use_age=False, print_counts=False):
 
-    return list_to_coordinates(file_to_list(filename), print_counts, use_age)
+    return list_to_coordinates(file_to_list(filename), use_age, print_counts)
 
 def represents_int(some_string):
     try:
-        int(s)
+        int(some_string)
         return True
     except ValueError:
         return False
 
-def list_to_coordinates(data, print_counts=False, use_age=False):
+def list_to_coordinates(data, use_age=False, print_counts=False):
     instance_locations = []
 
     no_location = 0
+    length = 0
     
     for row in data:
         if row[3] != "NoLocation":
-            instance_locations.append(plss_to_indices(row[3], True))
             if use_age:
                 if represents_int(row[5]):
+                    instance_locations.append(plss_to_indices(row[3], True))
                     instance_locations[length].append(str(row[5]))
+            else:
+                instance_locations.append(plss_to_indices(row[3], True))
             length +=1
         else:
             no_location +=1
