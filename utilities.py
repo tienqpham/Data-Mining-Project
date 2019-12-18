@@ -1,3 +1,5 @@
+from mpl_toolkits.mplot3d import Axes3D
+
 import numpy
 import random
 import time
@@ -5,11 +7,14 @@ import math
 from matplotlib import pyplot
 from sklearn.cluster import KMeans
 
+
 attributes = ["ID", "date", "county", "section", "sex", "age", "collection"]
 usable_attributes= ["county", "sex", "age", "collection"]
 
 def plot_kmeans(dataset, k=3, use_age=False):
-    pos_list = list_to_coordinates(dataset, False)
+    pos_list = list_to_coordinates(dataset, use_age)
+    if use_age: PROJECTION = '3d'
+    else: PROJECTION = None
     
     npdata = numpy.asarray(pos_list)
 
@@ -18,11 +23,20 @@ def plot_kmeans(dataset, k=3, use_age=False):
 
     print(kmeans.cluster_centers_)
 
-    for i in range(0, k):
-        pyplot.scatter(npdata[y_kmeans == i, 0], npdata[y_kmeans == i, 1], s=50, edgecolor='black')
-    pyplot.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=250, marker='*', c='red', edgecolor='black')
+    fig = pyplot.figure()
+    ax = fig.add_subplot(111, projection=PROJECTION)
 
-    pyplot.grid()
+    for i in range(0, k):
+        ax.scatter(npdata[y_kmeans == i, 0], npdata[y_kmeans == i, 1], s=50, edgecolor='black')
+    ax.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=250, marker='*', c='red', edgecolor='black')
+
+    ax.set_xlabel('relative Range')
+    ax.set_ylabel('relative Township')
+    if use_age:
+        ax.set_zlabel('Age')
+
+    if not use_age:
+        ax.grid()
     pyplot.show()
 
 
@@ -120,9 +134,10 @@ def list_to_coordinates(data, use_age=False, print_counts=False):
                 if represents_int(row[5]):
                     instance_locations.append(plss_to_indices(row[3], True))
                     instance_locations[length].append(str(row[5]))
+                    length +=1
             else:
                 instance_locations.append(plss_to_indices(row[3], True))
-            length +=1
+                length +=1
         else:
             no_location +=1
 

@@ -2,6 +2,7 @@ from utilities import *
 import numpy as np
 import time
 import random
+import sys
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
 
@@ -20,6 +21,37 @@ pos_list = (
     )
 '''
 
-while(True):
-    #plot_kmeans(raw_dataset, 3)
-    #plot_kmeans(raw_dataset, 8, True)
+again = "y"
+while(again != "n"):
+    print("Clustering 2D data")
+    k = input("d=2, k = ")
+    type(k)
+    
+    if(represents_int(k)):
+        k = int(k)
+        plot_kmeans(raw_dataset, k)
+    else:
+        print("invalid k value")
+
+    again = input("again? (y/n)")
+    type(again)
+
+
+again = "y"
+while(again != "n"):
+    print("Clustering 3D data")
+    k = input("d=3, k = ")
+    type(k)
+    
+    if(represents_int(k)):
+        k = int(k)
+        plot_kmeans(raw_dataset, k, True)
+    else:
+        print("invalid k value")
+
+    again = input("again? (y/n)")
+    type(again)
+
+    
+
+#plot_all_subsets(raw_dataset)
